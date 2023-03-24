@@ -88,7 +88,7 @@ The system is written in:
 
 ## Tests
 
-![Merge to Site](https://github.com/oll-ie/ECM2434-CA/actions/workflows/firebase-hosting-merge.yml/badge.svg)
+[![Deploy to Firebase](https://github.com/milesmfe/StepUp/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/milesmfe/StepUp/actions/workflows/firebase-hosting-merge.yml)
 
 [Click here](https://universityofexeteruk-my.sharepoint.com/:x:/r/personal/mab262_exeter_ac_uk/Documents/ECM2434/StepUp_application_testing_doccument.xlsx?d=w178d1380b99b43e29f41bbb771c62c4f&csf=1&web=1&e=oOiRBO) to view the application testing document
 
