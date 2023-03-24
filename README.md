@@ -17,7 +17,7 @@ An activity tracking web application, where users can:
 
 ## Getting Started
 
-To get started simply visit [StepUp](https://ecm2434-group-project.web.app/) to create your own account.
+To get started simply visit [StepUp](https://stepup-sustainable.web.app/) to create your own account.
 
 As a developer to get started, simply assure you have all of the dependencies installed, clone the repository, and run:
 
