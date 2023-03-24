@@ -1,10 +1,11 @@
-# ECM2434-CA
+# StepUp
 
-Continuous assessment solution for the University of Exeter ECM2434 Group Software Development module - Group 19.
+Cloned from [ECM2434](https://github.com/oll-ie/ECM2434-CA), a group project that I worked on as part of our University of Exeter Group Software Engineering Project Feb/March 2023 coursework.
 
 ## Description
 
 An activity tracking web application, where users can:
+
 * Create and verify an account
 * Login
 * Link their account to their [Strava](https://www.strava.com/) account
@@ -19,14 +20,17 @@ An activity tracking web application, where users can:
 To get started simply visit [StepUp](https://ecm2434-group-project.web.app/) to create your own account.
 
 As a developer to get started, simply assure you have all of the dependencies installed, clone the repository, and run:
+
 ```
 npm start
 ```
+
 This should locally host the site on your device.
 
 ### Dependencies
 
 This project was written/created using the following frameworks:
+
 * [React.js frontend development tools](https://react.dev/)
 * [Strava developer API](https://developers.strava.com/)
 * [Firebase app development platform](https://firebase.google.com/)
@@ -35,51 +39,52 @@ This project was written/created using the following frameworks:
 * [NodeJS](https://nodejs.org/en/)
 
 The system is written in:
+
 * HTML
 * CSS
 * JavaScript (JS and JSX)
 
-
 ## File Structure
-*	Firebase Authentication<sup>1</sup>
-*	Firebase Realtime Database<sup>1</sup>
-*	React Frontend
-  *	Public directory<sup>2</sup>
-    *	Images
-      *	Logo variations
-      *	Mobile app icon
-    *	HTML index<sup>3</sup>
-    *	Manifest file, enabling mobile support.
-    *	Robots file, to manage non-human access. 
-  *	Node.js package management and storage
-  *	Firebase admin credentials
-  *	Source Code
-    *	Firebase admin connection (authentication & database)
-    *	Activity monitoring (Strava) API connection
-    *	Session/State/Cookie management
-    *	JavaScript index<sup>3</sup>
-    *	Utilities
-      *	App layout
-      *	App theme
-      *	Routing rules
-    *	App Components
-      *	Navigation Bar
-      *	Garden
-        *	Garden components
-      *	Profile
-        *	Profile components
-      *	User Registration
-      *	User Login
-      *	User Password Reset
-      *	User Settings
-      *	404 Error page
-    *	App Tests
-      *	Jest tests
-      *	Unit tests
 
-<sup>1</sup>The Firebase backend is the only part of the system not stored in the project directory, rather it is managed via the Firebase console which is accessed via this website.  
-<sup>2</sup>This is the only directory directly accessible from the browser, although JSX components are injected from the source code.  
-<sup>3</sup>HTML index creates a root division in the website document onto which JavaScript index renders the React.js application.  
+* Firebase Authentication`<sup>`1`</sup>`
+* Firebase Realtime Database`<sup>`1`</sup>`
+* React Frontend
+* Public directory`<sup>`2`</sup>`
+  * Images
+  * Logo variations
+  * Mobile app icon
+  * HTML index`<sup>`3`</sup>`
+  * Manifest file, enabling mobile support.
+  * Robots file, to manage non-human access.
+* Node.js package management and storage
+* Firebase admin credentials
+* Source Code
+  * Firebase admin connection (authentication & database)
+  * Activity monitoring (Strava) API connection
+  * Session/State/Cookie management
+  * JavaScript index`<sup>`3`</sup>`
+  * Utilities
+  * App layout
+  * App theme
+  * Routing rules
+  * App Components
+  * Navigation Bar
+  * Garden
+    * Garden components
+  * Profile
+    * Profile components
+  * User Registration
+  * User Login
+  * User Password Reset
+  * User Settings
+  * 404 Error page
+  * App Tests
+  * Jest tests
+  * Unit tests
+
+`<sup>`1`</sup>`The Firebase backend is the only part of the system not stored in the project directory, rather it is managed via the Firebase console which is accessed via this website.
+`<sup>`2`</sup>`This is the only directory directly accessible from the browser, although JSX components are injected from the source code.
+`<sup>`3`</sup>`HTML index creates a root division in the website document onto which JavaScript index renders the React.js application.
 
 ## Tests
 
@@ -99,4 +104,4 @@ The system is written in:
 ## Version History
 
 * 0.1
-    * Initial Release
+  * Initial Release
