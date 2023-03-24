@@ -2,7 +2,8 @@ import { Box } from "@mui/material";
 import Flower from "./Flower";
 
 export default function GardenRender({
-  gardenData,
+  size,
+  planted,
   openFlower = () => {},
   outsideFlower = () => {},
 }) {
@@ -11,20 +12,20 @@ export default function GardenRender({
     <Box height="100%" overflow="auto">
       <Box
         sx={{
-          width: "150vw",
-          height: "150vh",
+          width: `${100 * (size.width / 5)}%`,
+          height: `${100 * (size.height / 5)}%`,
           backgroundImage: "url(/images/garden/garden-background.jpeg)",
           backgroundSize: "500px 500px",
           backgroundRepeat: "repeat",
           display: "grid",
-          gridTemplateColumns: `repeat(${gardenData.gardenSize.width}, 1fr)`,
-          gridTemplateRows: `repeat(${gardenData.gardenSize.height}, 1fr)`,
+          gridTemplateColumns: `repeat(${size.width}, 1fr)`,
+          gridTemplateRows: `repeat(${size.height}, 1fr)`,
           padding: 4,
           alignItems: "center",
           justifyItems: "center",
         }}
       >
-        {gardenData.planted.map((seed, i) => {
+        {planted.map((seed, i) => {
           return (
             <Flower
               openFlower={() => openFlower(i)}

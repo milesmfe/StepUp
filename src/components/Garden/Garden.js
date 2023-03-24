@@ -20,7 +20,12 @@ export default function Garden() {
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [gardenData, setGardenData] = useState({});
+  const [points, setPoints] = useState();
+  const [streak, setStreak] = useState();
+  const [level, setLevel] = useState();
+  const [seeds, setSeeds] = useState();
+  const [planted, setPlanted] = useState();
+  const [size, setSize] = useState();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [flowerOpenData, setFlowerOpenData] = useState(null);
   const [flowerOpen, setFlowerOpen] = useState(false);
@@ -30,67 +35,60 @@ export default function Garden() {
   const [changes, setChanges] = useState();
   const drawerBleed = 70;
 
-  // Data update functions ----------------------------------------- //
-  // function updateGardenSizeBy(width, height) {
-  //    setGardenData({
-  //       ...gardenData,
-  //       gardenSize: {
-  //          width: gardenData.gardenSize.width + width,
-  //          height: gardenData.gardenSize.height + height,
-  //       },
-  //    });
-  // }
-  // --------------------------------------------------------------- //
-
-  // Autosave data
+  // Autosave hook
   useEffect(() => {
-    setSaving(true);
-    async function checkLevel() {
-      const incomplete = gardenData.planted.filter(
-        (v) => v.progress !== v.reward
-      ).length;
-      if (gardenData.seeds.length === 0 && incomplete === 0) {
-        const compoundLevel = [...Array(gardenData.level + 1).keys()];
+    if (!loading) {
+      // Check if user needs more seeds
+      const inProgress = planted.find((v) => v.progress < v.reward);
+      if (!inProgress && seeds.length === 0) {
+        const compoundLevel = [...Array(level + 1).keys()];
         Promise.all(
           compoundLevel.map(
             async (v) =>
               await giveUserFlowerCardList(currentUser.uid, `lvl${v}`)
           )
-        ).then(async (flag) => {
+        ).then(async () => {
           const data = await readFormattedGardenData(currentUser.uid, true);
-          setGardenData(data);
+          setSeeds(data.seeds);
         });
       }
+      setSaving(true);
+      writeGardenData(currentUser.uid, {
+        points: points,
+        streak: streak,
+        level: level,
+        seeds: seeds,
+        planted: planted,
+        gardenSize: size,
+      });
+      setTimeout(() => {
+        setSaving(false);
+      }, 1000);
     }
-    async function runAutosave() {
-      writeGardenData(currentUser.uid, gardenData);
-    }
-    async function loadChanges() {
-      writeGardenData(currentUser.uid, gardenData);
-      const data = await readFormattedGardenData(currentUser.uid, true);
-      setGardenData(data);
-      setChanges(false);
-    }
-    if (!loading && !changes) {
-      checkLevel().then(runAutosave());
-    }
-    if (changes) {
-      loadChanges();
-    }
-    setTimeout(() => {
-      setSaving(false);
-    }, 1000);
-  }, [currentUser, gardenData, loading, changes]);
+  }, [
+    points,
+    streak,
+    level,
+    seeds,
+    planted,
+    size,
+    changes,
+    currentUser,
+    loading,
+  ]);
 
-  // Fetch data on mount
+  // Data fetch hook
   useEffect(() => {
-    async function loadGardenData() {
-      const data = await readFormattedGardenData(currentUser.uid, true);
-      setGardenData(data);
-      setLoading(false);
-    }
     setLoading(true);
-    loadGardenData();
+    readFormattedGardenData(currentUser.uid, true).then((data) => {
+      setPoints(data.points);
+      setStreak(data.streak);
+      setLevel(data.level);
+      setSeeds(data.seeds);
+      setPlanted(data.planted);
+      setSize(data.gardenSize);
+      setLoading(false);
+    });
   }, [currentUser]);
 
   function getRandomInRange(from, to) {
@@ -98,33 +96,28 @@ export default function Garden() {
   }
 
   function plantSeed(id) {
-    let seeds = gardenData.seeds;
-    let planted = gardenData.planted;
-    let newWidth = gardenData.gardenSize.width;
-    let newHeight = gardenData.gardenSize.height;
-    const x = getRandomInRange(0, gardenData.gardenSize.width);
-    const y = getRandomInRange(0, gardenData.gardenSize.height);
+    let newPlanted = planted;
+    let newWidth = size.width;
+    let newHeight = size.height;
+    const x = getRandomInRange(0, size.width);
+    const y = getRandomInRange(0, size.height);
     const flower = { ...seeds[id], position: { x: x, y: y }, progress: 0 };
-    planted.push(flower);
-    if (gardenData.planted.length / gardenData.gardenSize.width > 0.8) {
-      newWidth = (gardenData.gardenSize.width * 1.2).toFixed(0) * 1;
-      newHeight = (gardenData.gardenSize.height * 1.2).toFixed(0) * 1;
+    newPlanted.push(flower);
+    if (newPlanted.length / size.width > 0.8) {
+      newWidth = (size.width * 1.2).toFixed(0) * 1;
+      newHeight = (size.height * 1.2).toFixed(0) * 1;
     }
     const left = seeds.slice(0, id);
     const right = seeds.slice(id + 1);
-    seeds = left.concat(right);
-    setGardenData({
-      ...gardenData,
-      seeds: seeds,
-      planted: planted,
-      gardenSize: { width: newWidth, height: newHeight },
-    });
+    setSeeds(left.concat(right));
+    setPlanted(newPlanted);
+    setSize({ width: newWidth, height: newHeight });
   }
 
   async function checkForCompletion(id) {
     setCheckingCompletion(true);
     if (stravaConnected) {
-      const activity = gardenData.planted[id].activity;
+      const activity = planted[id].activity;
       // Iterate through all recent strava data
       let earned = 0;
       await getActivities().then((res) => {
@@ -135,33 +128,29 @@ export default function Garden() {
         if (validActivity) {
           earned +=
             (validActivity?.distance / activity.params.distance) *
-            gardenData.planted[id].reward;
+            planted[id].reward;
         }
         // If User made progress
         if (earned) {
-          gardenData.planted[id].progress += earned;
+          planted[id].progress += earned;
           // If complete
-          if (
-            gardenData.planted[id].progress >= gardenData.planted[id].reward
-          ) {
+          if (planted[id].progress >= planted[id].reward) {
             // Log to console
             console.log(`${currentUser.displayName} grew a flower...`);
             // Increase User points
-            gardenData.points += gardenData.planted[id].reward;
+            setPoints(points + planted[id].reward);
             // Add new activity data
             addUserActivity(currentUser.uid, {
               time: new Date().toJSON(),
-              title: gardenData.planted[id].title,
+              title: planted[id].title,
             });
             // Check if level has increased
             const boundaries = [0, 40, 120, 280, 440, 9999999999999];
-            const newLevel =
-              boundaries.findIndex((v) => gardenData.points < v) - 1;
-            gardenData.level = newLevel;
+            const newLevel = boundaries.findIndex((v) => points < v) - 1;
+            setLevel(newLevel);
           }
           // Notify listener of changes
           console.log(`${currentUser.displayName} earned ${earned} points...`);
-          setGardenData(gardenData);
           setChanges(true);
         }
       });
@@ -170,8 +159,8 @@ export default function Garden() {
   }
 
   // function uprootFlower(id) {
-  //   let left = gardenData.planted.splice(0, id);
-  //   let right = gardenData.planted.splice(id + 1);
+  //   let left = planted.splice(0, id);
+  //   let right = planted.splice(id + 1);
   //   let data = left.concat(right);
   //   setGardenData({
   //     ...gardenData,
@@ -182,8 +171,7 @@ export default function Garden() {
   function openFlower(id) {
     if (flowerOpenData !== id) setFlowerOpenData(id);
     setFlowerOpen(true);
-    if (gardenData.planted[id].progress !== gardenData.planted[id].reward)
-      checkForCompletion(id);
+    if (planted[id].progress < planted[id].reward) checkForCompletion(id);
   }
 
   if (loading)
@@ -216,17 +204,17 @@ export default function Garden() {
           >
             <Tooltip title="Level">
               <Avatar sx={{ bgcolor: grey[300] }}>
-                <Typography fontWeight={600}>{gardenData.level}</Typography>
+                <Typography fontWeight={600}>{level}</Typography>
               </Avatar>
             </Tooltip>
             <Tooltip title="Points">
               <Avatar sx={{ bgcolor: green[400] }}>
-                <Typography fontWeight={600}>{gardenData.points}</Typography>
+                <Typography fontWeight={600}>{points}</Typography>
               </Avatar>
             </Tooltip>
             <Tooltip title="Streak">
               <Avatar sx={{ bgcolor: orange[500] }}>
-                <Typography fontWeight={600}>{gardenData.streak}</Typography>
+                <Typography fontWeight={600}>{streak}</Typography>
               </Avatar>
             </Tooltip>
             {saving && (
@@ -255,23 +243,23 @@ export default function Garden() {
           >
             <Stack direction={"column"} spacing={1} width="100%" flexGrow={1}>
               <Typography width={"100%"} variant="h5">
-                {gardenData.planted[flowerOpenData]?.title}
+                {planted[flowerOpenData]?.title}
               </Typography>
               <Typography width={"100%"} variant="body1">
-                {gardenData.planted[flowerOpenData]?.description}
+                {planted[flowerOpenData]?.description}
               </Typography>
               <Stack direction="row" alignItems="center" spacing={2}>
                 <Chip
                   icon={<LocalFloristSharp />}
-                  label={gardenData.planted[flowerOpenData]?.reward}
+                  label={planted[flowerOpenData]?.reward}
                   variant={"outlined"}
                   size={"small"}
                   color={"success"}
                 />
                 <img
                   style={{ maxHeight: 30, maxWidth: 30 }}
-                  alt={gardenData.planted[flowerOpenData]?.title}
-                  src={gardenData.planted[flowerOpenData]?.photoURL}
+                  alt={planted[flowerOpenData]?.title}
+                  src={planted[flowerOpenData]?.photoURL}
                 />
               </Stack>
               {!stravaConnected ? (
@@ -288,8 +276,8 @@ export default function Garden() {
                     Checking for completion...
                   </Typography>
                 </Stack>
-              ) : gardenData.planted[flowerOpenData]?.progress ===
-                gardenData.planted[flowerOpenData]?.reward ? (
+              ) : planted[flowerOpenData]?.progress ===
+                planted[flowerOpenData]?.reward ? (
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -317,7 +305,8 @@ export default function Garden() {
         </Zoom>
       </div>
       <GardenRender
-        gardenData={gardenData}
+        size={size}
+        planted={planted}
         openFlower={openFlower}
         outsideFlower={() => setFlowerOpen(false)}
       />
@@ -357,10 +346,8 @@ export default function Garden() {
           {/* Indicate how many flower cards are in the drawer */}
           <Typography variant="body-1">
             Seed Box {"("}
-            {gardenData.seeds.length} Seed
-            {gardenData.seeds.length > 1 || gardenData.seeds.length === 0
-              ? "s"
-              : ""}
+            {seeds.length} Seed
+            {seeds.length > 1 || seeds.length === 0 ? "s" : ""}
             {")"}
           </Typography>
         </Box>
@@ -374,7 +361,7 @@ export default function Garden() {
         >
           {/* A list of flower cards */}
           <List sx={{ p: 2 }}>
-            {gardenData.seeds.length === 0 ? (
+            {seeds.length === 0 ? (
               <Paper
                 variant="outlined"
                 sx={{ p: 2, width: "100%", display: "flex" }}
@@ -387,7 +374,7 @@ export default function Garden() {
               </Paper>
             ) : (
               // Populate the list with flower cards rendered with user data
-              gardenData.seeds.map((seed, i) => (
+              seeds.map((seed, i) => (
                 <FlowerCard
                   plantSeed={() => plantSeed(i)}
                   key={i}
