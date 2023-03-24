@@ -30,7 +30,6 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     return auth().onAuthStateChanged((user) => {
       setCurrentUser(user);
-      getUserData(user);
       // if the user's email is not yet verified
       // warn them about this
       setWarning(
@@ -39,7 +38,8 @@ export function AuthProvider({ children }) {
           : ""
       );
       setMessage();
-      setLoading(false);
+      // Get user profile data then render page
+      getUserData(user).then(() => setLoading(false));
     });
   }, []);
 
