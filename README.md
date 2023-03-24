@@ -17,15 +17,7 @@ An activity tracking web application, where users can:
 
 ## Getting Started
 
-To get started simply visit [StepUp](https://ecm2434-group-project.web.app/) to create your own account.
-
-As a developer to get started, simply assure you have all of the dependencies installed, clone the repository, and run:
-
-```
-npm start
-```
-
-This should locally host the site on your device.
+To get started simply visit [StepUp](https://stepup-sustainable.web.app/) to create your own account.
 
 ### Dependencies
 
@@ -46,14 +38,14 @@ The system is written in:
 
 ## File Structure
 
-* Firebase Authentication`<sup>`1`</sup>`
-* Firebase Realtime Database`<sup>`1`</sup>`
+* Firebase Authentication<sup>1</sup>
+* Firebase Realtime Database<sup>1</sup>
 * React Frontend
-* Public directory`<sup>`2`</sup>`
+* Public directory<sup>2</sup>
   * Images
   * Logo variations
   * Mobile app icon
-  * HTML index`<sup>`3`</sup>`
+  * HTML index<sup>3</sup>
   * Manifest file, enabling mobile support.
   * Robots file, to manage non-human access.
 * Node.js package management and storage
@@ -62,7 +54,7 @@ The system is written in:
   * Firebase admin connection (authentication & database)
   * Activity monitoring (Strava) API connection
   * Session/State/Cookie management
-  * JavaScript index`<sup>`3`</sup>`
+  * JavaScript index<sup>3</sup>
   * Utilities
   * App layout
   * App theme
@@ -82,13 +74,15 @@ The system is written in:
   * Jest tests
   * Unit tests
 
-`<sup>`1`</sup>`The Firebase backend is the only part of the system not stored in the project directory, rather it is managed via the Firebase console which is accessed via this website.
-`<sup>`2`</sup>`This is the only directory directly accessible from the browser, although JSX components are injected from the source code.
-`<sup>`3`</sup>`HTML index creates a root division in the website document onto which JavaScript index renders the React.js application.
+<sup>1</sup>The Firebase backend is the only part of the system not stored in the project directory, rather it is managed via the Firebase console which is accessed via this website.
+
+<sup>2</sup>This is the only directory directly accessible from the browser, although JSX components are injected from the source code.
+
+<sup>3</sup>HTML index creates a root division in the website document onto which JavaScript index renders the React.js application.
 
 ## Tests
 
-![Merge to Site](https://github.com/oll-ie/ECM2434-CA/actions/workflows/firebase-hosting-merge.yml/badge.svg)
+[![Deploy to Firebase](https://github.com/milesmfe/StepUp/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/milesmfe/StepUp/actions/workflows/firebase-hosting-merge.yml)
 
 [Click here](https://universityofexeteruk-my.sharepoint.com/:x:/r/personal/mab262_exeter_ac_uk/Documents/ECM2434/StepUp_application_testing_doccument.xlsx?d=w178d1380b99b43e29f41bbb771c62c4f&csf=1&web=1&e=oOiRBO) to view the application testing document
 
