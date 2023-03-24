@@ -5,7 +5,6 @@ import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { readFormattedGardenData, readProfileData } from "../../database";
 import { useAuth } from "../../util/AuthContext";
-import Maps from "../Maps";
 
 export default function Profile() {
   const { currentUser, profileData } = useAuth();
@@ -96,7 +95,6 @@ export default function Profile() {
         <Typography mt={3} variant="h4">
           Recent Activity
         </Typography>
-        <Maps/>
         <ActivityTimeline activityData={activityData} />
       </Box>
     );
