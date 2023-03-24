@@ -1,12 +1,7 @@
-import React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import InitialSplashPage from './components/StravaSplashPage/intialSplashPage';
 import { Button, Container, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
-import ConnectPage from './components/StravaSplashPage/connectPage';
-import { Box } from "@mui/system";
 
 const {
   REACT_APP_STRAVA_CLIENT_ID,
@@ -20,15 +15,14 @@ const {
   NODE_ENV,
 } = process.env;
 
-
 const DEVELOPMENT = NODE_ENV === "development";
 const REACT_APP_STRAVA_REDIRECT_URL = DEVELOPMENT
   ? REACT_APP_STRAVA_DEVELOPMENT_REDIRECT_URL
   : REACT_APP_STRAVA_BUILD_REDIRECT_URL;
 
-  /**
-   * Connects a user's Strava account.
-   */
+/**
+ * Connects a user's Strava account.
+ */
 export function connectSrava() {
   const urlParams = new URLSearchParams({
     client_id: REACT_APP_STRAVA_CLIENT_ID,
@@ -42,8 +36,8 @@ export function connectSrava() {
 
 /**
  * Gets a user's activities from Strava.
- * 
- * @returns False if it was unsuccessful, otherwise returns True.
+ *
+ * @returns false if it was unsuccessful, otherwise returns true.
  */
 export async function getActivities() {
   const STRAVA_ACCESS_TOKEN = localStorage.getItem("STRAVA_ACCESS_TOKEN");
@@ -67,15 +61,19 @@ export async function getActivities() {
   }
 }
 
-/**
- * Disconnects from Strava once the process is complete.
- */
 export function disconnectStrava() {
   localStorage.removeItem("STRAVA_ACCESS_TOKEN");
 }
 
-export  function Strava() {
-
+/**
+ *
+ * Landing page for strava authorisation redirect,
+ * Automatically checks for strava access token in local storage,
+ * Tries to retrieve one if not present,
+ * Redirects to index if access token found or retrieved.
+ *
+ */
+export function Strava() {
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
   const STRAVA_ACCESS_TOKEN = localStorage.getItem("STRAVA_ACCESS_TOKEN");
@@ -101,7 +99,7 @@ export  function Strava() {
       })
       .catch((err) => console.log(err.response));
   }
-  
+
   // Check if the user arrived here manually
   useEffect(() => {
     if (!USER_CODE) setLoading(false);
@@ -110,9 +108,10 @@ export  function Strava() {
   if (USER_CODE && !STRAVA_ACCESS_TOKEN) {
     getAccessToken();
   }
+
   if (!loading)
-  return (
-    <Container maxWidth="xxl" sx={{backgroundColor: "#121212"}}>
+    return (
+      <Container maxWidth="xs" sx={{ textAlign: "center", mt: 6 }}>
         {ERROR === "access_denied" ? (
           <>
             <Typography variant="h3">Request Cancelled</Typography>
@@ -123,17 +122,8 @@ export  function Strava() {
           </>
         ) : !USER_CODE && !STRAVA_ACCESS_TOKEN ? (
           <>
-            
-              <Box sx={{
-                  minHeight: '100vh',
-                  backgroundColor: "#121212",
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: 'cover',
-                }}>
-                <CssBaseline />
-                <InitialSplashPage />
-                <ConnectPage />       
-              </Box>
+            <Typography variant="h3">Connect to Strava?</Typography>
+            <Button onClick={() => connectSrava()}>Connect</Button>
           </>
         ) : !STRAVA_ACCESS_TOKEN ? (
           <>
@@ -145,6 +135,5 @@ export  function Strava() {
           <Navigate to="/" />
         )}
       </Container>
-    
-  );
+    );
 }
