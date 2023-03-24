@@ -19,14 +19,6 @@ An activity tracking web application, where users can:
 
 To get started simply visit [StepUp](https://stepup-sustainable.web.app/) to create your own account.
 
-As a developer to get started, simply assure you have all of the dependencies installed, clone the repository, and run:
-
-```
-npm start
-```
-
-This should locally host the site on your device.
-
 ### Dependencies
 
 This project was written/created using the following frameworks:
@@ -46,14 +38,14 @@ The system is written in:
 
 ## File Structure
 
-* Firebase Authentication`<sup>`1`</sup>`
-* Firebase Realtime Database`<sup>`1`</sup>`
+* Firebase Authentication<sup>1</sup>
+* Firebase Realtime Database<sup>1</sup>
 * React Frontend
-* Public directory`<sup>`2`</sup>`
+* Public directory<sup>2</sup>
   * Images
   * Logo variations
   * Mobile app icon
-  * HTML index`<sup>`3`</sup>`
+  * HTML index<sup>3</sup>
   * Manifest file, enabling mobile support.
   * Robots file, to manage non-human access.
 * Node.js package management and storage
@@ -62,7 +54,7 @@ The system is written in:
   * Firebase admin connection (authentication & database)
   * Activity monitoring (Strava) API connection
   * Session/State/Cookie management
-  * JavaScript index`<sup>`3`</sup>`
+  * JavaScript index<sup>3</sup>
   * Utilities
   * App layout
   * App theme
@@ -82,9 +74,11 @@ The system is written in:
   * Jest tests
   * Unit tests
 
-`<sup>`1`</sup>`The Firebase backend is the only part of the system not stored in the project directory, rather it is managed via the Firebase console which is accessed via this website.
-`<sup>`2`</sup>`This is the only directory directly accessible from the browser, although JSX components are injected from the source code.
-`<sup>`3`</sup>`HTML index creates a root division in the website document onto which JavaScript index renders the React.js application.
+<sup>1</sup>The Firebase backend is the only part of the system not stored in the project directory, rather it is managed via the Firebase console which is accessed via this website.
+
+<sup>2</sup>This is the only directory directly accessible from the browser, although JSX components are injected from the source code.
+
+<sup>3</sup>HTML index creates a root division in the website document onto which JavaScript index renders the React.js application.
 
 ## Tests
 
