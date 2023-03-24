@@ -12,7 +12,7 @@ import { Typography } from "@mui/material";
 export default function ActivityTimeline({ activityData }) {
   return (
     <Timeline position="alternate">
-      {activityData ? (
+      {activityData.length > 0 ? (
         activityData.map((activity, i) => {
           return (
             <TimelineItem key={i}>
