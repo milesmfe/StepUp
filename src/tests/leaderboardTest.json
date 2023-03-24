@@ -1,0 +1,58 @@
+{
+    "users": {
+      "4Yh9bc4S6Se9XMuuNvbf3gjnHnJ2": {
+        "garden": {
+          "points": 5
+        },
+        "profile": {
+          "username": "Cierre",
+          "visible": true
+        }
+      },
+      "AaGHMJWaWITL5Y4dF9t7diig9Cq1": {
+        "garden": {
+          "points": 3
+        },
+        "profile": {
+          "username": "Max B",
+          "visible": true
+        }
+      },
+      "JpniEmP8M3WSPzTMD2SLc3BtYhn1": {
+        "garden": {
+          "points": 7
+        },
+        "profile": {
+          "username": "darren -G",
+          "visible": true
+        }
+      },
+      "SjueR34gVeY4n4KElsBtHPE1ihE2": {
+        "garden": {
+          "points": 0
+        },
+        "profile": {
+          "username": "Lewis John",
+          "visible": true
+        }
+      },
+      "WOOyBSCTAgZGwGrsyfj1ZZtXBy23": {
+        "garden": {
+          "points": 6
+        },
+        "profile": {
+          "username": "testtest",
+          "visible": false
+        }
+      },
+      "YpgRKMPOSTPWnzJYCObLfVKdrne2": {
+        "garden": {
+          "points": 100
+        },
+        "profile": {
+          "username": "JackSouster",
+          "visible": true
+        }
+      }
+    }
+  }

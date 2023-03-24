@@ -1,0 +1,17 @@
+{
+  "short_name": "StepUp",
+  "name": "Step Up!",
+  "icons": [
+   {
+      "src": "/images/app-icon.png",
+      "type": "image/png",
+      "sizes": "1024x1024"
+    }
+  ],
+  "start_url": "/login",
+  "display": "fullscreen",
+  "theme_color": "#006552",
+  "background_color": "#009b7f",
+  "description": "walk to campus and learn about the environment to make the flowers bloom!"
+}
+
