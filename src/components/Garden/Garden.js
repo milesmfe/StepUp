@@ -41,7 +41,9 @@ export default function Garden() {
       // Check if user needs more seeds
       const inProgress = planted.find((v) => v.progress < v.reward);
       if (!inProgress && seeds.length === 0) {
-        const compoundLevel = [...Array(level + 1).keys()];
+        let compoundLevel = [...Array(level).keys()];
+        if (level > 0) compoundLevel = compoundLevel.slice(1);
+        console.log(compoundLevel);
         Promise.all(
           compoundLevel.map(
             async (v) =>
