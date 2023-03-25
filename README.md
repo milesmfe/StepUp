@@ -1,5 +1,7 @@
 # StepUp
 
+<img width="75px" height="75px" src= "https://github.com/milesmfe/StepUp/blob/main/public/images/icon.png"/>
+
 Cloned from [ECM2434](https://github.com/oll-ie/ECM2434-CA), a group project that I worked on as part of our University of Exeter Group Software Engineering Project Feb/March 2023 coursework.
 
 ## Description
