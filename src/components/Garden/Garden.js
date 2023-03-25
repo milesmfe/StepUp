@@ -42,12 +42,12 @@ export default function Garden() {
       const inProgress = planted.find((v) => v.progress < v.reward);
       if (!inProgress && seeds.length === 0) {
         let compoundLevel = [...Array(level).keys()];
-        if (level > 0) compoundLevel = compoundLevel.slice(1);
+        if (level === 0) compoundLevel = [0];
         console.log(compoundLevel);
         Promise.all(
           compoundLevel.map(
             async (v) =>
-              await giveUserFlowerCardList(currentUser.uid, `lvl${v}`)
+              await giveUserFlowerCardList(currentUser.uid, `lvl${v + 1}`)
           )
         ).then(async () => {
           const data = await readFormattedGardenData(currentUser.uid, true);
